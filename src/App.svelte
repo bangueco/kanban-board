@@ -32,7 +32,7 @@
       }
 
       kanbanItemsStore.update((items) => [
-        ...items, {item_name: kanbanItemName, status: "TODO"}
+        ...items, {id: items.length, item_name: kanbanItemName, status: "TODO"}
       ])
       kanbanItemName = ''
       syncKanbanItems()
@@ -53,7 +53,7 @@
       <h1 class="text-3xl font-bold text-red-600 text-center">To Do</h1>
       <div id="todo-items" class="flex flex-col gap-3 pt-12 overflow-scroll h-full">
         {#each $kanbanGroups.todo as todoKanban }
-          <div class="border p-3 text-center cursor-pointer" use:dragItem draggable="true" data-label={todoKanban.status}>
+          <div class="border p-3 text-center cursor-pointer" use:dragItem draggable="true" data-id={todoKanban.id} data-label={todoKanban.status}>
             <p>{todoKanban.item_name}</p>
           </div>
         {:else}
@@ -65,7 +65,7 @@
       <h1 class="text-3xl font-bold text-yellow-300 text-center">In Progress</h1>
       <div id="in-progress-items" class="flex flex-col gap-3 pt-12 overflow-scroll h-full">
         {#each $kanbanGroups.inProgress as inProgressKanban }
-          <div class="border p-3 text-center cursor-pointer" use:dragItem draggable="true" data-label={inProgressKanban.status}>
+          <div class="border p-3 text-center cursor-pointer" use:dragItem draggable="true" data-id={inProgressKanban.id} data-label={inProgressKanban.status}>
             <p>{inProgressKanban.item_name}</p>
           </div>
         {:else}
@@ -77,7 +77,7 @@
       <h1 class="text-3xl font-bold text-green-400 text-center">Done</h1>
       <div id="done-items" class="flex flex-col gap-3 pt-12 overflow-scroll h-full">
         {#each $kanbanGroups.done as doneKanban }
-          <div class="border p-3 text-center cursor-pointer" use:dragItem draggable="true" data-label={doneKanban.status}>
+          <div class="border p-3 text-center cursor-pointer" use:dragItem draggable="true" data-id={doneKanban.id} data-label={doneKanban.status}>
             <p>{doneKanban.item_name}</p>
           </div>
         {:else}
