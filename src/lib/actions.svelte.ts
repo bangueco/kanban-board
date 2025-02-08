@@ -1,4 +1,4 @@
-import type { Status } from "../types"
+import type { Items, Status } from "../types"
 import storage from "./storage"
 import { kanbanItemsStore } from "./stores.svelte"
 
@@ -16,6 +16,29 @@ export function dragItem(node: HTMLElement) {
 
   const dropHandler = (status: Status) => (event: DragEvent) => {
     event.preventDefault();
+
+    const dropZone = event.target as HTMLElement
+
+    if (dropZone.dataset.id && event.dataTransfer?.getData("text/plain")) {
+      const targetId = dropZone.dataset.id
+      const currentItemid = event.dataTransfer?.getData("text/plain")
+      const items = storage.getLocalStorageItem("kanban-items")
+
+      if (!items) return
+
+      const parsedItems: Items[] = JSON.parse(items)
+
+      const targetIndex = parsedItems.findIndex(item => item.id === parseInt(targetId))
+      const currentItemIndex = parsedItems.findIndex(item => item.id === parseInt(currentItemid) )
+
+      const newItems = parsedItems.slice()
+
+      newItems[targetIndex] = parsedItems[currentItemIndex]
+      newItems[currentItemIndex] = parsedItems[targetIndex]
+
+      kanbanItemsStore.set(newItems)
+    }
+
     const itemId = event.dataTransfer?.getData("text/plain");
     if (itemId) {
       console.log(`Item ${itemId} dropped at ${status}`);
