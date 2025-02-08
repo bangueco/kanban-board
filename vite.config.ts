@@ -10,5 +10,5 @@ export default defineConfig({
       $lib: path.resolve("./src/lib"),
     },
   },
-  base: '/<REPO>/'
+  base: process.env.NODE_ENV === 'production' ? '/kanban-board/' : '/'
 })
