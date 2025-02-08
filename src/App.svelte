@@ -32,6 +32,10 @@
         return alert("Kanban item name input is required.")
       }
 
+      if (kanbanItemName.length > 20) {
+        return alert("Kanban item name must not exceed 20 characters.")
+      }
+
       kanbanItemsStore.update((items) => [
         ...items, {id: items.length, item_name: kanbanItemName, status: "TODO"}
       ])
