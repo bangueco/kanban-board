@@ -5,9 +5,9 @@
     import { onMount } from "svelte";
     import storage from "./lib/storage";
     import type { Items } from "./types";
-    import { dragItem } from "./lib/actions.svelte";
     import { kanbanGroups, kanbanItemsStore } from "./lib/stores.svelte";
     import KanbanItem from "./lib/components/KanbanItem.svelte";
+    import ThemeSwitcher from "./lib/components/ThemeSwitcher.svelte";
 
     let kanbanItemName: string = $state('')
 
@@ -44,8 +44,9 @@
     }
 </script>
 
-<header class="p-3 text-center">
+<header class="p-10 text-center flex flex-row justify-between">
   <h1 class="text-5xl font-bold">Kanban Board</h1>
+  <ThemeSwitcher />
 </header>
 
 <main class="flex-auto p-2">
@@ -56,7 +57,7 @@
   <div class="p-3 grid grid-cols-3 gap-10 h-full">
     <div id="todo" class="border p-3 rounded-xl">
       <h1 class="text-3xl font-bold text-red-600 text-center">To Do</h1>
-      <div id="todo-items" class="flex flex-col gap-3 pt-12 overflow-scroll h-full">
+      <div id="todo-items" class="flex flex-col gap-3 pt-12 overflow-y-scroll overflow-x-hidden h-full">
         {#each $kanbanGroups.todo as todoKanban }
           <KanbanItem
             id={todoKanban.id}
